@@ -14,11 +14,11 @@ public class AuthTokenDTO  {
     public AuthTokenDTO() {
     }
 
-    String getIdToken() {
+    public String getIdToken() {
         return idToken;
     }
 
-    void setIdToken(String idToken) {
+    public void setIdToken(String idToken) {
         this.idToken = idToken;
     }
 }

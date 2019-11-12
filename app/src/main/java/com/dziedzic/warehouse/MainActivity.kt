@@ -6,24 +6,24 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.dziedzic.warehouse.Entity.AuthTokenDTO
+import com.dziedzic.warehouse.Entity.User
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import java.net.HttpURLConnection
 
 import com.dziedzic.warehouse.Rest.APIClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URL
 
 
 class MainActivity : AppCompatActivity() {
-    private val RC_SIGN_IN = 9001
+    private val RC_SIGN_IN = 1
     private val TAG = "SignInActivity"
     protected val authService = APIClient.getAuthService()
+    public val user = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun signIn(view: View) {
+    fun signInGoogle(view: View) {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("523539799843-hccnda578nhkun2kvmo279hd64u2q4ij.apps.googleusercontent.com")
             .requestEmail()
@@ -80,16 +80,11 @@ class MainActivity : AppCompatActivity() {
         return object : Callback<AuthTokenDTO> {
             override fun onResponse(call: Call<AuthTokenDTO>, response: Response<AuthTokenDTO>) {
                 Log.i(TAG, response.message())
-                if (response.code() == HttpURLConnection.HTTP_OK) {
-
-                } else if (response.code() == HttpURLConnection.HTTP_FORBIDDEN) {
-
-                } else if (response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
-
-                } else if (response.code() == HttpURLConnection.HTTP_UNAVAILABLE) {
-
+                if(response.isSuccessful()) {
+                    val refreshToken = response.body()?.idToken;
+                    user.refreshToken = refreshToken
                 } else {
-
+                    user.refreshToken = ""
                 }
             }
 
