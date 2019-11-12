@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 1
     private val TAG = "SignInActivity"
     protected val authService = APIClient.getAuthService()
-    public val user = User()
+    val user = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +59,9 @@ class MainActivity : AppCompatActivity() {
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            val idToken = account.getIdToken()
+            val idToken = account.idToken
+            user.email = account.email
+            user.name = account.displayName
             authorizeOAuth(idToken)
 
             //updateUI(account)
