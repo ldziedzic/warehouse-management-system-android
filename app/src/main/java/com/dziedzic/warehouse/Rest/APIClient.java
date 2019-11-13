@@ -31,16 +31,19 @@ public class APIClient {
             .baseUrl(hostUrl)
             .build();
 
-
-    public static AuthService getAuthService() {
-        return retrofit.create(AuthService.class);
-    }
-
     public static ObjectMapper getDefaultObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.setDateFormat(new StdDateFormat());
 
         return mapper;
+    }
+
+    public static AuthService getAuthService() {
+        return retrofit.create(AuthService.class);
+    }
+
+    public static ProductService getProductService() {
+        return retrofit.create(ProductService.class);
     }
 }

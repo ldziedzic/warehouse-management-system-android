@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dziedzic.warehouse">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,10 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ProductManager"></activity>
         <activity android:name=".LoginOauth">
             <intent-filter>
-                <action android:name="de.novatec.android.HANDLE_AUTHORIZATION_RESPONSE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="de.novatec.android.HANDLE_AUTHORIZATION_RESPONSE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
@@ -23,5 +27,5 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

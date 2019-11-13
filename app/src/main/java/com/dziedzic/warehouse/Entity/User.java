@@ -13,6 +13,10 @@ public class User {
         return this.refreshToken;
     }
 
+    public String getBearerToken(){
+        return "Bearer " + this.refreshToken;
+    }
+
     public String getName() {
         return name;
     }
