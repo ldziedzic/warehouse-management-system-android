@@ -9,9 +9,9 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dziedzic.warehouse.Entity.ProductDTO
-import com.dziedzic.warehouse.ProductManagerAdapter.MyViewHolder
+import com.dziedzic.warehouse.ProductManagerBrowserAdapter.MyViewHolder
 
-class ProductManagerAdapter(
+class ProductManagerBrowserAdapter(
     private var productList: List<ProductDTO>?, var context: Context)
         : RecyclerView.Adapter<MyViewHolder>() {
 
@@ -43,7 +43,7 @@ class ProductManagerAdapter(
         viewType: Int
     ): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.activity_product_manager_item, parent, false)
+            .inflate(R.layout.activity_product_manager_browser_item, parent, false)
 
         return MyViewHolder(itemView)
     }

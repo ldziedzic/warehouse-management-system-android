@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     user.refreshToken = refreshToken
                     val nextScreen = Intent(
                         applicationContext,
-                        ProductManager::class.java
+                        ProductManagerBrowser::class.java
                     )
                     startActivity(nextScreen)
                     finish()

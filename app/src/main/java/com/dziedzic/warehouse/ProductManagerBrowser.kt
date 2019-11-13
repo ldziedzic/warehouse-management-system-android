@@ -13,24 +13,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProductManager : AppCompatActivity() {
-    private val TAG = "SignInActivity"
+class ProductManagerBrowser : AppCompatActivity() {
+    private val TAG = "ProductManagerBrowser"
     protected val productService = APIClient.getProductService()
-    private var productManagerAdapter: ProductManagerAdapter? = null
+    private var productManagerBrowserAdapter: ProductManagerBrowserAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product_manager)
+        setContentView(R.layout.activity_product_manager_browser)
 
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
-        productManagerAdapter = ProductManagerAdapter(null, getApplicationContext())
+        productManagerBrowserAdapter = ProductManagerBrowserAdapter(null, getApplicationContext())
 
         val mLayoutManager = LinearLayoutManager(
             applicationContext
         )
         recyclerView.setLayoutManager(mLayoutManager)
         recyclerView.setItemAnimator(DefaultItemAnimator())
-        recyclerView.setAdapter(productManagerAdapter)
+        recyclerView.setAdapter(productManagerBrowserAdapter)
 
 
         displayProducts()
@@ -49,7 +49,7 @@ class ProductManager : AppCompatActivity() {
             ) {
                 Log.i(TAG, response.message())
                 if (response.isSuccessful()) {
-                    productManagerAdapter?.update(response.body().orEmpty())
+                    productManagerBrowserAdapter?.update(response.body().orEmpty())
                 }
             }
 
