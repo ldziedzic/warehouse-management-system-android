@@ -14,6 +14,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 
 import com.dziedzic.warehouse.Rest.APIClient
+import com.google.android.gms.common.api.GoogleApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,18 +23,16 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 1
     private val TAG = "SignInActivity"
+    private var mGoogleApiClient: GoogleApiClient? = null
     protected val authService = APIClient.getAuthService()
-    val user = User()
+
+    companion object {
+        val user = User()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-
     }
 
     fun signInGoogle(view: View) {
@@ -46,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         val signInIntent = mGoogleSignInClient.getSignInIntent()
         startActivityForResult(signInIntent, RC_SIGN_IN)
+        mGoogleSignInClient.signOut()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -85,6 +85,12 @@ class MainActivity : AppCompatActivity() {
                 if(response.isSuccessful()) {
                     val refreshToken = response.body()?.idToken;
                     user.refreshToken = refreshToken
+                    val nextScreen = Intent(
+                        applicationContext,
+                        ProductManager::class.java
+                    )
+                    startActivity(nextScreen)
+                    finish()
                 } else {
                     user.refreshToken = ""
                 }
