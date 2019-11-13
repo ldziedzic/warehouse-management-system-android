@@ -2,4 +2,8 @@
     <string name="app_name">Warehouse</string>
     <string name="add_new_product">Add new product</string>
     <string name="reftesh_products">Reftesh products</string>
+    <string name="manufacturer_name">Manufacturer name</string>
+    <string name="model_name">Model name</string>
+    <string name="price">Price</string>
+    <string name="save_changes">save changes</string>
 </resources>

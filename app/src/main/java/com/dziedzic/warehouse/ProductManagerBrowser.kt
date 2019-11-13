@@ -1,8 +1,11 @@
 package com.dziedzic.warehouse
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +25,8 @@ class ProductManagerBrowser : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_manager_browser)
 
+        val newProductButton: Button = findViewById(R.id.add_new_product_button)
+        newProductButton.setOnClickListener {addNewProduct(it)}
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         productManagerBrowserAdapter = ProductManagerBrowserAdapter(null, getApplicationContext())
 
@@ -32,8 +37,12 @@ class ProductManagerBrowser : AppCompatActivity() {
         recyclerView.setItemAnimator(DefaultItemAnimator())
         recyclerView.setAdapter(productManagerBrowserAdapter)
 
-
         displayProducts()
+    }
+
+    fun addNewProduct(view: View) {
+        val nextScreen = Intent(applicationContext, ProductManagerEditor::class.java)
+        startActivity(nextScreen)
     }
 
     fun displayProducts() {
