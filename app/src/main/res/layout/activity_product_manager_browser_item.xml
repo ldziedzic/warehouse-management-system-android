@@ -12,24 +12,80 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp">
 
-    <TextView
-        android:id="@+id/name"
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:textColor="#222222"
-        android:textSize="16dp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/name" />
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/quantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/price" />
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#222222"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_column="0"/>
+
+            <EditText
+                android:id="@+id/amount"
+                android:layout_width="52dp"
+                android:layout_height="41dp"
+                android:layout_column="2"
+                android:ems="10"
+                android:hint="@string/amount"
+                android:inputType="text" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="center_vertical" />
+
+            <Button
+                android:id="@+id/increase_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plus"
+                android:layout_gravity="right"
+                android:layout_column="2"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"/>
+
+            <Button
+                android:id="@+id/edit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_gravity="right"
+                android:text="@string/edit" />
+
+            <Button
+                android:id="@+id/decrease_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/minus"
+                android:layout_column="2"
+                android:layout_gravity="right"/>
+        </TableRow>
+    </TableLayout>
+
 </RelativeLayout>

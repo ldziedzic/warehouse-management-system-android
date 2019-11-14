@@ -12,7 +12,6 @@ import com.dziedzic.warehouse.Rest.APIClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.HttpURLConnection
 
 class ProductManagerEditor : AppCompatActivity() {
     private val TAG = "ProductManagerEditor"
@@ -28,7 +27,7 @@ class ProductManagerEditor : AppCompatActivity() {
         val product = i.getParcelableExtra<ProductDTO>("EDIT_PRODUCT")
 
         val manufacturerName: EditText = findViewById(R.id.manufacturerName)
-        val modelName: EditText = findViewById(R.id.modelName)
+        val modelName: EditText = findViewById(R.id.amount)
         val price: EditText = findViewById(R.id.price)
 
         if (product != null) {

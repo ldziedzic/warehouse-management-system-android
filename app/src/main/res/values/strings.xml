@@ -6,4 +6,8 @@
     <string name="model_name">Model name</string>
     <string name="price">Price</string>
     <string name="save_changes">save changes</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="amount">Amount</string>
+    <string name="edit">Edit</string>
 </resources>

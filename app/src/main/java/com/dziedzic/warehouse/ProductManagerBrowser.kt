@@ -18,7 +18,7 @@ import retrofit2.Response
 
 class ProductManagerBrowser : AppCompatActivity() {
     private val TAG = "ProductManagerBrowser"
-    protected val productService = APIClient.getProductService()
+    private val productService = APIClient.getProductService()
     private var productManagerBrowserAdapter: ProductManagerBrowserAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

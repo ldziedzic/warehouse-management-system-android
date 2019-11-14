@@ -22,10 +22,10 @@ public interface ProductService {
                           @Body ProductDTO productDTO);
 
     @PUT("/api/warehouse/products/increase_product_quantity")
-    Call<Void> increaseProductQuantity(@Header(HttpHeaders.AUTHORIZATION) String authHeader,
+    Call<ProductDTO> increaseProductQuantity(@Header(HttpHeaders.AUTHORIZATION) String authHeader,
                                        @Body ProductDTO productDTO);
 
     @PUT("/api/warehouse/products/decrease_product_quantity")
-    Call<Void> decreaseProductQuantity(@Header(HttpHeaders.AUTHORIZATION) String authHeader,
+    Call<ProductDTO> decreaseProductQuantity(@Header(HttpHeaders.AUTHORIZATION) String authHeader,
                                        @Body ProductDTO productDTO);
 }
