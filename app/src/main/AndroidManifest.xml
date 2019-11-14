@@ -12,13 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ProductManagerBrowser"></activity>
-        <activity android:name=".LoginOauth">
-            <intent-filter>
-                <action android:name="de.novatec.android.HANDLE_AUTHORIZATION_RESPONSE" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
