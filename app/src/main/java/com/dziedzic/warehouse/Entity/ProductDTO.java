@@ -26,10 +26,10 @@ public class ProductDTO implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.price);
-        dest.writeInt(this.quantity);
         dest.writeString(this.manufacturerName);
         dest.writeString(this.modelName);
+        dest.writeInt(this.price);
+        dest.writeInt(this.quantity);
     }
 
     public static final Creator CREATOR = new Creator() {

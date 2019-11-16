@@ -1,6 +1,7 @@
 package com.dziedzic.warehouse
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.dziedzic.warehouse.Entity.ProductDTO
 import com.dziedzic.warehouse.ProductManagerBrowserAdapter.MyViewHolder
@@ -44,6 +46,7 @@ class ProductManagerBrowserAdapter (
         var amount: TextView
         var increase_button: Button
         var decrease_button: Button
+        var edit_button: Button
 
         init {
             titleMessage = view.findViewById(R.id.name)
@@ -52,6 +55,7 @@ class ProductManagerBrowserAdapter (
             amount = view.findViewById(R.id.amount)
             increase_button = view.findViewById(R.id.increase_button)
             decrease_button = view.findViewById(R.id.decrease_button)
+            edit_button = view.findViewById(R.id.edit_button)
             layout = view.findViewById(R.id.background)
         }
     }
@@ -80,6 +84,7 @@ class ProductManagerBrowserAdapter (
 
         holder.increase_button.setOnClickListener {increaseProductQuantity(it, holder)}
         holder.decrease_button.setOnClickListener {decreaseProductQuantity(it, holder)}
+        holder.edit_button.setOnClickListener {editProduct(it, product)}
     }
 
 
@@ -107,10 +112,32 @@ class ProductManagerBrowserAdapter (
 
     fun increaseProductQuantity(view: View, holder: MyViewHolder) {
         val product = getProductFromHolder(holder)
-        product.quantity = holder.amount.text.toString().toInt()
+        if (holder.amount.getText().toString() != "")
+            product.quantity = Integer.parseInt(holder.amount.getText().toString())
+        else product.quantity = 0
+
         val call = productService.increaseProductQuantity(MainActivity.user.bearerToken, product)
         call.enqueue(getFetchCallback(holder.productPosition))
     }
+
+
+    fun decreaseProductQuantity(view: View, holder: MyViewHolder) {
+        val product = getProductFromHolder(holder)
+        if (holder.amount.getText().toString() != "")
+            product.quantity = Integer.parseInt(holder.amount.getText().toString())
+        else product.quantity = 0
+
+        val call = productService.decreaseProductQuantity(MainActivity.user.bearerToken, product)
+        call.enqueue(getFetchCallback(holder.productPosition))
+    }
+
+
+    fun editProduct(view: View, product: ProductDTO) {
+        val nextScreen = Intent(context, ProductManagerEditor::class.java)
+        nextScreen.putExtra("EDIT_PRODUCT", product)
+        startActivity(context, nextScreen, null)
+    }
+
 
     private fun getProductFromHolder(holder: MyViewHolder): ProductDTO {
         val product = ProductDTO()
@@ -121,14 +148,6 @@ class ProductManagerBrowserAdapter (
 
         return product
     }
-
-    fun decreaseProductQuantity(view: View, holder: MyViewHolder) {
-        val product = getProductFromHolder(holder)
-        product.quantity = holder.amount.text.toString().toInt()
-        val call = productService.decreaseProductQuantity(MainActivity.user.bearerToken, product)
-        call.enqueue(getFetchCallback(holder.productPosition))
-    }
-
 
 
     private fun getFetchCallback(position: Int): Callback<ProductDTO> {

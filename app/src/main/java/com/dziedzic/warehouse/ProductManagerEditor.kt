@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import com.dziedzic.warehouse.Entity.ProductDTO
+import com.dziedzic.warehouse.Entity.ProductEditDTO
 
 import com.dziedzic.warehouse.Rest.APIClient
 import retrofit2.Call
@@ -18,22 +19,23 @@ class ProductManagerEditor : AppCompatActivity() {
     protected val productService = APIClient.getProductService()
     private var productManagerBrowserAdapter: ProductManagerBrowserAdapter? = null
     private var editType = "CREATE_NEW_PRODUCT"
+    var product: ProductDTO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_manager_editor)
 
         val i = intent
-        val product = i.getParcelableExtra<ProductDTO>("EDIT_PRODUCT")
+        product = i.getParcelableExtra<ProductDTO>("EDIT_PRODUCT")
 
-        val manufacturerName: EditText = findViewById(R.id.manufacturerName)
-        val modelName: EditText = findViewById(R.id.amount)
+        val manufacturerName: EditText = this.findViewById(R.id.manufacturerName)
+        val modelName: EditText = findViewById(R.id.modelName)
         val price: EditText = findViewById(R.id.price)
 
         if (product != null) {
-            manufacturerName.setText(product.manufacturerName)
-            modelName.setText(product.modelName)
-            price.setText(product.price)
+            manufacturerName.setText(product!!.manufacturerName)
+            modelName.setText(product!!.modelName)
+            price.setText(product!!.price.toString())
             editType = "EDIT_PRODUCT"
         }
 
@@ -41,18 +43,33 @@ class ProductManagerEditor : AppCompatActivity() {
         val saveChanges: Button = findViewById(R.id.saveChanges)
 
         saveChanges.setOnClickListener {
-            var editedProduct = ProductDTO()
+            val editedProduct = ProductDTO()
             editedProduct.manufacturerName = manufacturerName.text.toString()
             editedProduct.modelName = modelName.text.toString()
-            editedProduct.price = price.text.toString().toInt()
+            if (price.getText().toString() != "")
+                editedProduct.price = Integer.parseInt(price.getText().toString())
+            else editedProduct.price = product!!.price
 
             saveProduct(editedProduct)
         }
     }
 
-    fun saveProduct(product: ProductDTO) {
-        val call = productService.addProduct(MainActivity.user.bearerToken, product)
-        call.enqueue(getFetchCallback())
+    fun saveProduct(editedProduct: ProductDTO) {
+        if (editType == "EDIT_PRODUCT") {
+            val productEditDTO: ProductEditDTO = ProductEditDTO()
+            productEditDTO.manufacturerName = product!!.manufacturerName
+            productEditDTO.modelName = product!!.modelName
+            productEditDTO.price = editedProduct.price
+            productEditDTO.newModelName = editedProduct.modelName
+            productEditDTO.newManufacturerName = editedProduct.manufacturerName
+
+            val call = productService.editProduct(MainActivity.user.bearerToken, productEditDTO)
+            call.enqueue(getFetchCallback())
+        } else {
+            val call = productService.addProduct(MainActivity.user.bearerToken, product)
+            call.enqueue(getFetchCallback())
+        }
+
     }
 
     private fun getFetchCallback(): Callback<Void> {

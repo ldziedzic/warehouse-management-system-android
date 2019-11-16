@@ -23,7 +23,7 @@
             tools:layout_editor_absoluteY="251dp" />
 
         <EditText
-            android:id="@+id/amount"
+            android:id="@+id/modelName"
             android:layout_width="335dp"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/price"
-            android:inputType="text" />
+            android:inputType="number" />
 
         <Button
             android:id="@+id/saveChanges"

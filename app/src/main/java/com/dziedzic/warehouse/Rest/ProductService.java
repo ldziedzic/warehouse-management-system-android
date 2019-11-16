@@ -1,6 +1,7 @@
 package com.dziedzic.warehouse.Rest;
 
 import com.dziedzic.warehouse.Entity.ProductDTO;
+import com.dziedzic.warehouse.Entity.ProductEditDTO;
 
 import org.apache.http.HttpHeaders;
 
@@ -28,4 +29,8 @@ public interface ProductService {
     @PUT("/api/warehouse/products/decrease_product_quantity")
     Call<ProductDTO> decreaseProductQuantity(@Header(HttpHeaders.AUTHORIZATION) String authHeader,
                                        @Body ProductDTO productDTO);
+
+    @PUT("/api/warehouse/products/edit_product")
+    Call<Void> editProduct(@Header(HttpHeaders.AUTHORIZATION) String authHeader,
+                           @Body ProductEditDTO productEditDTO);
 }

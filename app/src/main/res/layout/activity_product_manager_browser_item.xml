@@ -37,7 +37,7 @@
                 android:layout_column="2"
                 android:ems="10"
                 android:hint="@string/amount"
-                android:inputType="text" />
+                android:inputType="number" />
         </TableRow>
 
         <TableRow
