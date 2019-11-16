@@ -54,6 +54,12 @@ class ProductManagerEditor : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        val nextScreen = Intent(applicationContext, ProductManagerBrowser::class.java)
+        startActivity(nextScreen)
+        finish()
+    }
+
     fun saveProduct(editedProduct: ProductDTO) {
         if (editType == "EDIT_PRODUCT") {
             val productEditDTO: ProductEditDTO = ProductEditDTO()
@@ -81,6 +87,7 @@ class ProductManagerEditor : AppCompatActivity() {
                 Log.i(TAG, response.message())
                 val nextScreen = Intent(applicationContext, ProductManagerBrowser::class.java)
                 startActivity(nextScreen)
+                finish()
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
