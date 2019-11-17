@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.dziedzic.warehouse.Entity.ProductDTO
@@ -47,6 +45,9 @@ class ProductManagerBrowserAdapter (
         var increase_button: Button
         var decrease_button: Button
         var edit_button: Button
+        var activation_row: TableRow
+        var activate_button: Switch
+        var active: TextView
 
         init {
             titleMessage = view.findViewById(R.id.name)
@@ -57,6 +58,14 @@ class ProductManagerBrowserAdapter (
             decrease_button = view.findViewById(R.id.decrease_button)
             edit_button = view.findViewById(R.id.edit_button)
             layout = view.findViewById(R.id.background)
+            activation_row = view.findViewById(R.id.activation_row)
+            activate_button = view.findViewById((R.id.activate_button))
+            active = view.findViewById((R.id.active))
+
+            if (MainActivity.user.role == "manager") {
+                activate_button.visibility = View.VISIBLE
+                active.setText("Active:")
+            }
         }
     }
 
@@ -73,9 +82,14 @@ class ProductManagerBrowserAdapter (
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val product = productList!![position]
-        holder.productPosition = position
+        val product = productList!![holder.getAdapterPosition()]
+        holder.productPosition = holder.getAdapterPosition()
         setHolderValues(product, holder)
+        if (MainActivity.user.role == "manager") {
+            holder.activate_button.setChecked(product.isActive)
+
+            holder.activate_button.setOnCheckedChangeListener { _, isChecked -> changeProductStatus(isChecked, product, holder) }
+        }
 
         if (position % 2 == 0)
             holder.layout.setBackgroundColor(Color.parseColor("#deeefa"))
@@ -85,6 +99,17 @@ class ProductManagerBrowserAdapter (
         holder.increase_button.setOnClickListener {increaseProductQuantity(it, holder)}
         holder.decrease_button.setOnClickListener {decreaseProductQuantity(it, holder)}
         holder.edit_button.setOnClickListener {editProduct(it, product)}
+    }
+
+
+    fun changeProductStatus(isChecked: Boolean, product: ProductDTO, holder: MyViewHolder) {
+        if (isChecked) {
+            val call = productService.restoreProduct(MainActivity.user.bearerToken, product)
+            call.enqueue(getFetchCallback(holder.productPosition))
+        } else {
+            val call = productService.removeProduct(MainActivity.user.bearerToken, product)
+            call.enqueue(getFetchCallback(holder.productPosition))
+        }
     }
 
 
@@ -188,5 +213,6 @@ class ProductManagerBrowserAdapter (
         this.productList!![position].manufacturerName = product.manufacturerName
         this.productList!![position].price = product.price
         this.productList!![position].quantity = product.quantity
+        this.productList!![position].isActive = product.isActive
     }
 }

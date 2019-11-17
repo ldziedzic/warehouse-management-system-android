@@ -86,6 +86,30 @@
                 android:layout_column="2"
                 android:layout_gravity="right"/>
         </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/activation_row">
+
+            <TextView
+                android:id="@+id/active"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/active"
+                android:layout_column="1"
+                android:layout_gravity="right"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <Switch
+                android:id="@+id/activate_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_column="2"
+                android:layout_gravity="center"/>
+        </TableRow>
     </TableLayout>
 
 </RelativeLayout>

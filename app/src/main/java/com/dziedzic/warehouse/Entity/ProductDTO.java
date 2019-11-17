@@ -14,6 +14,8 @@ public class ProductDTO implements Parcelable {
 
     private int quantity;
 
+    private boolean active;
+
     public ProductDTO() {
     }
 
@@ -22,6 +24,7 @@ public class ProductDTO implements Parcelable {
         this.modelName = in.readString();
         this.price = in.readInt();
         this.quantity = in.readInt();
+        this.active = in.readBoolean();
     }
 
     @Override
@@ -30,6 +33,7 @@ public class ProductDTO implements Parcelable {
         dest.writeString(this.modelName);
         dest.writeInt(this.price);
         dest.writeInt(this.quantity);
+        dest.writeBoolean(this.active);
     }
 
     public static final Creator CREATOR = new Creator() {
@@ -76,6 +80,14 @@ public class ProductDTO implements Parcelable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
 

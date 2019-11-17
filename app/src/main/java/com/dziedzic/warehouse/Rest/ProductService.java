@@ -33,4 +33,12 @@ public interface ProductService {
     @PUT("/api/warehouse/products/edit_product")
     Call<Void> editProduct(@Header(HttpHeaders.AUTHORIZATION) String authHeader,
                            @Body ProductEditDTO productEditDTO);
+
+    @PUT("/api/warehouse/products/restore_product")
+    Call<ProductDTO> restoreProduct(@Header(HttpHeaders.AUTHORIZATION) String authHeader,
+                           @Body ProductDTO productDTO);
+
+    @PUT("/api/warehouse/products/remove_product")
+    Call<ProductDTO> removeProduct(@Header(HttpHeaders.AUTHORIZATION) String authHeader,
+                           @Body ProductDTO productDTO);
 }
