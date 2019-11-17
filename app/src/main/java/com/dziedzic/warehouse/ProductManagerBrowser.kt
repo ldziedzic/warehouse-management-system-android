@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +38,7 @@ class ProductManagerBrowser : AppCompatActivity() {
         recyclerView.setItemAnimator(DefaultItemAnimator())
         recyclerView.setAdapter(productManagerBrowserAdapter)
 
+        displayUserData()
         displayProducts()
     }
 
@@ -47,6 +49,14 @@ class ProductManagerBrowser : AppCompatActivity() {
     fun addNewProduct(view: View) {
         val nextScreen = Intent(applicationContext, ProductManagerEditor::class.java)
         startActivity(nextScreen)
+    }
+
+    fun displayUserData() {
+        val userName: TextView = findViewById(R.id.userName)
+        val userRole: TextView = findViewById(R.id.userRole)
+        userName.setText(MainActivity.user.name)
+        userRole.setText(MainActivity.user.role)
+
     }
 
     fun displayProducts() {

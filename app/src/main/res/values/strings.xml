@@ -10,5 +10,6 @@
     <string name="minus">-</string>
     <string name="amount">Amount</string>
     <string name="edit">Edit</string>
-    <string name="user_name"> </string>
+    <string name="user_name">name:</string>
+    <string name="role">role:</string>
 </resources>

@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
                     if (userDTO != null) {
                         user.name = userDTO.name
                         user.email = userDTO.email
+                        user.role = userDTO.role
                     }
 
                     startNextActivity()
