@@ -72,7 +72,7 @@ class ProductManagerEditor : AppCompatActivity() {
             val call = productService.editProduct(MainActivity.user.bearerToken, productEditDTO)
             call.enqueue(getFetchCallback())
         } else {
-            val call = productService.addProduct(MainActivity.user.bearerToken, product)
+            val call = productService.addProduct(MainActivity.user.bearerToken, editedProduct)
             call.enqueue(getFetchCallback())
         }
 

@@ -46,4 +46,8 @@ public class APIClient {
     public static ProductService getProductService() {
         return retrofit.create(ProductService.class);
     }
+
+    public static UserService getUserService() {
+        return retrofit.create(UserService.class);
+    }
 }

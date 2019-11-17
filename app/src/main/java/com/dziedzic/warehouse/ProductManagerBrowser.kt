@@ -40,6 +40,10 @@ class ProductManagerBrowser : AppCompatActivity() {
         displayProducts()
     }
 
+    override fun onBackPressed() {
+        finish()
+    }
+
     fun addNewProduct(view: View) {
         val nextScreen = Intent(applicationContext, ProductManagerEditor::class.java)
         startActivity(nextScreen)

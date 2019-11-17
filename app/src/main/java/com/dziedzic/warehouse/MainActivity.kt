@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "SignInActivity"
     private var mGoogleApiClient: GoogleApiClient? = null
     protected val authService = APIClient.getAuthService()
+    protected val userService = APIClient.getUserService()
 
     companion object {
         val user = User()
@@ -60,8 +61,6 @@ class MainActivity : AppCompatActivity() {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             val idToken = account.idToken
-            user.email = account.email
-            user.name = account.displayName
             authorizeOAuth(idToken)
 
             //updateUI(account)
@@ -74,23 +73,18 @@ class MainActivity : AppCompatActivity() {
 
     fun authorizeOAuth(idToken: String?) {
         val call = authService.signInOAuth(idToken)
-        call.enqueue(getFetchCallback())
+        call.enqueue(getSignInOAuthCallback())
     }
 
 
-    private fun getFetchCallback(): Callback<AuthTokenDTO> {
+    private fun getSignInOAuthCallback(): Callback<AuthTokenDTO> {
         return object : Callback<AuthTokenDTO> {
             override fun onResponse(call: Call<AuthTokenDTO>, response: Response<AuthTokenDTO>) {
                 Log.i(TAG, response.message())
                 if(response.isSuccessful()) {
                     val refreshToken = response.body()?.idToken;
                     user.refreshToken = refreshToken
-                    val nextScreen = Intent(
-                        applicationContext,
-                        ProductManagerBrowser::class.java
-                    )
-                    startActivity(nextScreen)
-                    finish()
+                    getCurrentUser(user.bearerToken)
                 } else {
                     user.refreshToken = ""
                 }
@@ -100,5 +94,42 @@ class MainActivity : AppCompatActivity() {
                 Log.e(TAG, t.message, t)
             }
         }
+    }
+
+
+    fun getCurrentUser(bearerToken: String) {
+        val call = userService.getCurrentUser(bearerToken)
+        call.enqueue(getCurrentUserCallback())
+    }
+
+
+    private fun getCurrentUserCallback(): Callback<User> {
+        return object : Callback<User> {
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                Log.i(TAG, response.message())
+                if(response.isSuccessful()) {
+                    val userDTO = response.body()
+                    if (userDTO != null) {
+                        user.name = userDTO.name
+                        user.email = userDTO.email
+                    }
+
+                    startNextActivity()
+                }
+            }
+
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                Log.e(TAG, t.message, t)
+            }
+        }
+    }
+
+    private fun startNextActivity() {
+        val nextScreen = Intent(
+            applicationContext,
+            ProductManagerBrowser::class.java
+        )
+        startActivity(nextScreen)
+        finish()
     }
 }
