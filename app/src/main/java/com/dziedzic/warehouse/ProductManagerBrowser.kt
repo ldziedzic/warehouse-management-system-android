@@ -16,6 +16,10 @@ import com.dziedzic.warehouse.Rest.APIClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.google.gson.Gson
+import android.widget.Toast
+import java.io.*
+
 
 class ProductManagerBrowser : AppCompatActivity() {
     private val TAG = "ProductManagerBrowser"
@@ -61,6 +65,8 @@ class ProductManagerBrowser : AppCompatActivity() {
 
     fun displayProducts() {
         val call = productService.getProducts(MainActivity.user.bearerToken)
+        val utils = Utils();
+        val isInternetAvailable = utils.isInternetAvailable(applicationContext)
         call.enqueue(getFetchCallback())
     }
 
@@ -72,6 +78,7 @@ class ProductManagerBrowser : AppCompatActivity() {
             ) {
                 Log.i(TAG, response.message())
                 if (response.isSuccessful()) {
+                    saveProductsState(response.body().orEmpty())
                     productManagerBrowserAdapter?.update(response.body().orEmpty())
                 }
             }
@@ -79,6 +86,52 @@ class ProductManagerBrowser : AppCompatActivity() {
             override fun onFailure(call: Call<List<ProductDTO>>, t: Throwable) {
                 Log.e(TAG, t.message, t)
             }
+        }
+    }
+
+    fun saveProductsState(products: List<ProductDTO>) {
+        val folderPath = externalCacheDir.toString() + "/warehouse_manager"
+        val gson = Gson()
+        val productsJson = gson.toJson(products)
+
+        createApplicationDir(folderPath)
+
+        try {
+            var output: Writer? = null
+            val file = File(folderPath + "products.json")
+            output = BufferedWriter(FileWriter(file))
+            output.run {
+                output = BufferedWriter(FileWriter(file))
+                write(productsJson.toString())
+                close()
+            }
+            Toast.makeText(applicationContext, "Products list saved", Toast.LENGTH_LONG).show()
+
+        } catch (e: Exception) {
+            Toast.makeText(baseContext, e.message, Toast.LENGTH_LONG).show()
+        }
+
+
+
+        readProductsState()
+    }
+
+
+    fun readProductsState(): List<ProductDTO> {
+        val folderPath = externalCacheDir.toString() + "/warehouse_manager"
+        val gson = Gson()
+        val bufferedReader: BufferedReader = File(folderPath + "products.json").bufferedReader()
+        val inputString = bufferedReader.use { it.readText() }
+        val data = gson.fromJson(inputString, Array<ProductDTO>::class.java).toList();
+        return data
+    }
+
+
+    fun createApplicationDir(folderPath: String) {
+        val folder = File(folderPath)
+        if (!folder.exists()) {
+            val wallpaperDirectory = File(folderPath)
+            wallpaperDirectory.mkdirs()
         }
     }
 }
