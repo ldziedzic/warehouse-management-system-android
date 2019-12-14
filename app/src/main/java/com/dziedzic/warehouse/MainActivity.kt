@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.dziedzic.warehouse.Entity.AuthTokenDTO
+import com.dziedzic.warehouse.Entity.RequestManagerEntity
 import com.dziedzic.warehouse.Entity.User
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -29,7 +30,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val user = User()
+        val requestsManager = BackgroundRequestsManager()
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

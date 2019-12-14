@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.dziedzic.warehouse.Entity.ProductDTO
+import com.dziedzic.warehouse.Entity.RequestManagerEntity
 import com.dziedzic.warehouse.ProductManagerBrowserAdapter.MyViewHolder
 import com.dziedzic.warehouse.Rest.APIClient
 import retrofit2.Call
@@ -104,11 +105,25 @@ class ProductManagerBrowserAdapter (
 
     fun changeProductStatus(isChecked: Boolean, product: ProductDTO, holder: MyViewHolder) {
         if (isChecked) {
-            val call = productService.restoreProduct(MainActivity.user.bearerToken, product)
-            call.enqueue(getFetchCallback(holder.productPosition))
+            val utils = Utils();
+            val isInternetAvailable = utils.isInternetAvailable(context)
+            if (isInternetAvailable) {
+                val call = productService.restoreProduct(MainActivity.user.bearerToken, product)
+                call.enqueue(getFetchCallback(holder.productPosition))
+            } else {
+                MainActivity.requestsManager.addRequestToManager(
+                    RequestManagerEntity("restoreProduct", product, null))
+            }
         } else {
-            val call = productService.removeProduct(MainActivity.user.bearerToken, product)
-            call.enqueue(getFetchCallback(holder.productPosition))
+            val utils = Utils();
+            val isInternetAvailable = utils.isInternetAvailable(context)
+            if (isInternetAvailable) {
+                val call = productService.removeProduct(MainActivity.user.bearerToken, product)
+                call.enqueue(getFetchCallback(holder.productPosition))
+            } else {
+                MainActivity.requestsManager.addRequestToManager(
+                    RequestManagerEntity("removeProduct", product, null))
+            }
         }
     }
 
@@ -141,8 +156,16 @@ class ProductManagerBrowserAdapter (
             product.quantity = Integer.parseInt(holder.amount.getText().toString())
         else product.quantity = 0
 
-        val call = productService.increaseProductQuantity(MainActivity.user.bearerToken, product)
-        call.enqueue(getFetchCallback(holder.productPosition))
+        val utils = Utils();
+        val isInternetAvailable = utils.isInternetAvailable(context)
+        if (isInternetAvailable) {
+            val call = productService.increaseProductQuantity(MainActivity.user.bearerToken, product)
+            call.enqueue(getFetchCallback(holder.productPosition))
+        } else {
+            MainActivity.requestsManager.addRequestToManager(
+                RequestManagerEntity("increaseProductQuantity", product, null))
+        }
+
     }
 
 
@@ -152,8 +175,15 @@ class ProductManagerBrowserAdapter (
             product.quantity = Integer.parseInt(holder.amount.getText().toString())
         else product.quantity = 0
 
-        val call = productService.decreaseProductQuantity(MainActivity.user.bearerToken, product)
-        call.enqueue(getFetchCallback(holder.productPosition))
+        val utils = Utils();
+        val isInternetAvailable = utils.isInternetAvailable(context)
+        if (isInternetAvailable) {
+            val call = productService.decreaseProductQuantity(MainActivity.user.bearerToken, product)
+            call.enqueue(getFetchCallback(holder.productPosition))
+        } else {
+            MainActivity.requestsManager.addRequestToManager(
+                RequestManagerEntity("decreaseProductQuantity", product, null))
+        }
     }
 
 

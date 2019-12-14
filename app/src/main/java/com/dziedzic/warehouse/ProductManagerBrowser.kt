@@ -32,6 +32,10 @@ class ProductManagerBrowser : AppCompatActivity() {
 
         val newProductButton: Button = findViewById(R.id.add_new_product_button)
         newProductButton.setOnClickListener {addNewProduct(it)}
+
+        val refreshButton: Button = findViewById(R.id.refresh_button)
+        refreshButton.setOnClickListener {refresh(it)}
+
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         productManagerBrowserAdapter = ProductManagerBrowserAdapter(null, getApplicationContext())
 
@@ -55,6 +59,11 @@ class ProductManagerBrowser : AppCompatActivity() {
         startActivity(nextScreen)
     }
 
+    fun refresh(view: View) {
+        MainActivity.requestsManager.run()
+        displayProducts()
+    }
+
     fun displayUserData() {
         val userName: TextView = findViewById(R.id.userName)
         val userRole: TextView = findViewById(R.id.userRole)
@@ -64,10 +73,15 @@ class ProductManagerBrowser : AppCompatActivity() {
     }
 
     fun displayProducts() {
-        val call = productService.getProducts(MainActivity.user.bearerToken)
         val utils = Utils();
         val isInternetAvailable = utils.isInternetAvailable(applicationContext)
-        call.enqueue(getFetchCallback())
+        if (!isInternetAvailable) {
+
+            productManagerBrowserAdapter?.update(readProductsState())
+        } else {
+            val call = productService.getProducts(MainActivity.user.bearerToken)
+            call.enqueue(getFetchCallback())
+        }
     }
 
     private fun getFetchCallback(): Callback<List<ProductDTO>> {
@@ -110,10 +124,6 @@ class ProductManagerBrowser : AppCompatActivity() {
         } catch (e: Exception) {
             Toast.makeText(baseContext, e.message, Toast.LENGTH_LONG).show()
         }
-
-
-
-        readProductsState()
     }
 
 

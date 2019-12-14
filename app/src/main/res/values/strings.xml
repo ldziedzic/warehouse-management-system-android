@@ -13,4 +13,5 @@
     <string name="user_name">name:</string>
     <string name="role">role:</string>
     <string name="active">  </string>
+    <string name="refresh">Refresh</string>
 </resources>

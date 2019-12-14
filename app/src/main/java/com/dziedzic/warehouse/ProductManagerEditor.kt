@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import com.dziedzic.warehouse.Entity.ProductDTO
 import com.dziedzic.warehouse.Entity.ProductEditDTO
+import com.dziedzic.warehouse.Entity.RequestManagerEntity
 
 import com.dziedzic.warehouse.Rest.APIClient
 import retrofit2.Call
@@ -69,11 +70,28 @@ class ProductManagerEditor : AppCompatActivity() {
             productEditDTO.newModelName = editedProduct.modelName
             productEditDTO.newManufacturerName = editedProduct.manufacturerName
 
-            val call = productService.editProduct(MainActivity.user.bearerToken, productEditDTO)
-            call.enqueue(getFetchCallback())
+
+            val utils = Utils();
+            val isInternetAvailable = utils.isInternetAvailable(applicationContext)
+            if (!isInternetAvailable) {
+                MainActivity.requestsManager.addRequestToManager(
+                    RequestManagerEntity("editProduct", null, productEditDTO)
+                )
+            } else {
+                val call = productService.editProduct(MainActivity.user.bearerToken, productEditDTO)
+                call.enqueue(getFetchCallback())
+            }
         } else {
-            val call = productService.addProduct(MainActivity.user.bearerToken, editedProduct)
-            call.enqueue(getFetchCallback())
+            val utils = Utils();
+            val isInternetAvailable = utils.isInternetAvailable(applicationContext)
+            if (!isInternetAvailable) {
+                MainActivity.requestsManager.addRequestToManager(
+                    RequestManagerEntity("addProduct", editedProduct, null)
+                )
+            } else {
+                val call = productService.addProduct(MainActivity.user.bearerToken, editedProduct)
+                call.enqueue(getFetchCallback())
+            }
         }
 
     }
