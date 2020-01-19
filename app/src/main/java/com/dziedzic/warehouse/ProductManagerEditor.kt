@@ -14,6 +14,7 @@ import com.dziedzic.warehouse.Rest.APIClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class ProductManagerEditor : AppCompatActivity() {
     private val TAG = "ProductManagerEditor"
@@ -70,6 +71,10 @@ class ProductManagerEditor : AppCompatActivity() {
             productEditDTO.newModelName = editedProduct.modelName
             productEditDTO.newManufacturerName = editedProduct.manufacturerName
 
+            val uuid = UUID.randomUUID()
+            productEditDTO.guid = uuid.toString();
+            editedProduct.guid = uuid.toString();
+
 
             val utils = Utils();
             val isInternetAvailable = utils.isInternetAvailable(applicationContext)
@@ -83,6 +88,8 @@ class ProductManagerEditor : AppCompatActivity() {
             }
         } else {
             val utils = Utils();
+            val uuid = UUID.randomUUID()
+            editedProduct.guid = uuid.toString();
             val isInternetAvailable = utils.isInternetAvailable(applicationContext)
             if (!isInternetAvailable) {
                 MainActivity.requestsManager.addRequestToManager(

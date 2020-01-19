@@ -17,6 +17,10 @@ import com.dziedzic.warehouse.Rest.APIClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import java.util.UUID.randomUUID
+
+
 
 class ProductManagerBrowserAdapter (
     private var productList: List<ProductDTO>?, var context: Context)
@@ -104,6 +108,8 @@ class ProductManagerBrowserAdapter (
 
 
     fun changeProductStatus(isChecked: Boolean, product: ProductDTO, holder: MyViewHolder) {
+        val uuid = UUID.randomUUID()
+        product.guid = uuid.toString();
         if (isChecked) {
             val utils = Utils();
             val isInternetAvailable = utils.isInternetAvailable(context)
@@ -156,6 +162,9 @@ class ProductManagerBrowserAdapter (
             product.quantity = Integer.parseInt(holder.amount.getText().toString())
         else product.quantity = 0
 
+        val uuid = UUID.randomUUID()
+        product.guid = uuid.toString();
+
         val utils = Utils();
         val isInternetAvailable = utils.isInternetAvailable(context)
         if (isInternetAvailable) {
@@ -174,6 +183,9 @@ class ProductManagerBrowserAdapter (
         if (holder.amount.getText().toString() != "")
             product.quantity = Integer.parseInt(holder.amount.getText().toString())
         else product.quantity = 0
+
+        val uuid = UUID.randomUUID()
+        product.guid = uuid.toString();
 
         val utils = Utils();
         val isInternetAvailable = utils.isInternetAvailable(context)

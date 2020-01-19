@@ -15,16 +15,19 @@ public class ProductEditDTO {
 
     private String newModelName;
 
+    private String guid;
+
     public ProductEditDTO() {
     }
 
-    public ProductEditDTO(String manufacturerName, String modelName, int price, int quantity, String newManufacturerName, String newModelName) {
+    public ProductEditDTO(String manufacturerName, String modelName, int price, int quantity, String newManufacturerName, String newModelName, String guid) {
         this.manufacturerName = manufacturerName;
         this.modelName = modelName;
         this.price = price;
         this.quantity = quantity;
         this.newManufacturerName = newManufacturerName;
         this.newModelName = newModelName;
+        this.guid = guid;
     }
 
     public String getManufacturerName() {
@@ -69,6 +72,14 @@ public class ProductEditDTO {
 
     public String getNewModelName() {
         return newModelName;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
     public void setNewModelName(String newModelName) {

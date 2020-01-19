@@ -16,6 +16,8 @@ public class ProductDTO implements Parcelable {
 
     private boolean active;
 
+    private String guid;
+
     public ProductDTO() {
     }
 
@@ -25,6 +27,7 @@ public class ProductDTO implements Parcelable {
         this.price = in.readInt();
         this.quantity = in.readInt();
         this.active = in.readBoolean();
+        this.guid = in.readString();
     }
 
     @Override
@@ -34,6 +37,7 @@ public class ProductDTO implements Parcelable {
         dest.writeInt(this.price);
         dest.writeInt(this.quantity);
         dest.writeBoolean(this.active);
+        dest.writeString(this.guid);
     }
 
     public static final Creator CREATOR = new Creator() {
@@ -88,6 +92,14 @@ public class ProductDTO implements Parcelable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 }
 

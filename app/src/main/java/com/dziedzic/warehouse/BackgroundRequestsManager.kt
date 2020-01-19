@@ -22,7 +22,7 @@ class BackgroundRequestsManager {
             performRequest(requestManagerEntity)
             Thread.sleep(500)
         }
-        requestManagerEntities.clear()
+        //requestManagerEntities.clear()
     }
 
     fun addRequestToManager(requestManagerEntity: RequestManagerEntity) {
